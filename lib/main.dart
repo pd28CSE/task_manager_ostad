@@ -24,7 +24,7 @@ class TaskManager extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Task Manager',
-      initialRoute: EmailVerificationScreen.routeName,
+      initialRoute: SetPasswordScreen.routeName,
       routes: {
         SplashScreen.routeName: (cntxt) => const SplashScreen(),
         LoginScreen.routeName: (cntxt) => const LoginScreen(),
