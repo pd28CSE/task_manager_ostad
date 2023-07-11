@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:http/http.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
-
 import './screens/auth_screens/splash_screen.dart';
 import './screens/auth_screens/login_screen.dart';
 import './screens/auth_screens/registrations_screen.dart';
