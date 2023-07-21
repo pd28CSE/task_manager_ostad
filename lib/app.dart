@@ -27,13 +27,16 @@ class TaskManager extends StatelessWidget {
             fontWeight: FontWeight.w400,
           ),
         ),
-        inputDecorationTheme: const InputDecorationTheme(
+        inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: Color.fromRGBO(255, 255, 255, 1.0),
-          border: InputBorder.none,
-          outlineBorder: BorderSide(),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          focusedBorder: OutlineInputBorder(
+          fillColor: const Color.fromRGBO(255, 255, 255, 1.0),
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.green),
           ),
         ),
