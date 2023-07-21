@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './ui/screens/auth_screens/splash_screen.dart';
+import './ui/screens/auth_screens/registrations_screen.dart';
 
 class TaskManager extends StatelessWidget {
   const TaskManager({super.key});
@@ -31,6 +31,7 @@ class TaskManager extends StatelessWidget {
           filled: true,
           fillColor: Color.fromRGBO(255, 255, 255, 1.0),
           border: InputBorder.none,
+          outlineBorder: BorderSide(),
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.green),
@@ -40,6 +41,9 @@ class TaskManager extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             minimumSize: const Size.fromHeight(45),
             backgroundColor: const Color.fromRGBO(33, 191, 115, 1),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6),
+            ),
           ),
         ),
       ),
@@ -47,7 +51,7 @@ class TaskManager extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.light,
-      home: const SplashScreen(),
+      home: const RegistrationScreen(),
     );
   }
 }
