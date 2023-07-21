@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../styles/style.dart';
+import '../../widgets/screen_background.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'login-screen/';
@@ -14,48 +15,48 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          screenBackground(context),
-          Ink(
-            padding: const EdgeInsets.all(30),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Get Started With',
-                  style: head1Text(colorDarkBlue),
+      body: ScreenBackground(
+        child: Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Get Started With',
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
+              const SizedBox(height: 1),
+              Text(
+                'Learn with rabbil hasan',
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Email',
                 ),
-                const SizedBox(height: 1),
-                Text(
-                  'Learn with rabbil hasan',
-                  style: head6Text(colorLightGray),
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Password',
                 ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  decoration: appInputDecoration('Email'),
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  decoration: appInputDecoration('Password'),
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.done,
-                  obscureText: true,
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  style: appButtonStyle(),
-                  onPressed: () {},
-                  child: successButtonChild('Login'),
-                ),
-              ],
-            ),
+                obscureText: true,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.done,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                style: appButtonStyle(),
+                onPressed: () {},
+                child: successButtonChild('Login'),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../styles/style.dart';
 import '../../utilitys/assets_utils.dart';
+import '../../widgets/screen_background.dart';
 import './login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -38,16 +38,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            screenBackground(context),
-            SizedBox(
-              child: SvgPicture.asset(AssetsUtils.logoSVG),
-            ),
-          ],
+    return Scaffold(
+      body: ScreenBackground(
+        child: Center(
+          child: SvgPicture.asset(AssetsUtils.logoSVG),
         ),
       ),
     );

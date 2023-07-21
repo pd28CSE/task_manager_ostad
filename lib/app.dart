@@ -11,13 +11,30 @@ class TaskManager extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Task Manager',
       theme: ThemeData(
+        primarySwatch: Colors.green,
         brightness: Brightness.light,
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(
+            color: Color.fromRGBO(44, 62, 80, 1.0),
+            fontSize: 28,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w700,
+          ),
+          displayMedium: TextStyle(
+            color: Color.fromRGBO(135, 142, 150, 1.0),
+            fontSize: 16,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w400,
+          ),
+        ),
         inputDecorationTheme: const InputDecorationTheme(
           filled: true,
           fillColor: Color.fromRGBO(255, 255, 255, 1.0),
-          // border: InputBorder.none,
-          outlineBorder: BorderSide.none,
+          border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.green),
+          ),
         ),
       ),
       darkTheme: ThemeData(

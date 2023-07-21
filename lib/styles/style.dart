@@ -41,7 +41,7 @@ PinTheme appOTPStyle() {
 
 TextStyle head1Text(Color textColor) {
   return TextStyle(
-    color: textColor,
+    color: Color.fromRGBO(44, 62, 80, 1.0),
     fontSize: 28,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w700,
@@ -50,7 +50,7 @@ TextStyle head1Text(Color textColor) {
 
 TextStyle head6Text(Color textColor) {
   return TextStyle(
-    color: textColor,
+    color: Color.fromRGBO(135, 142, 150, 1.0),
     fontSize: 16,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w400,
