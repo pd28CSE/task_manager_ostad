@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './ui/screens/auth_screens/email_verification_screen.dart';
+import './ui/screens/auth_screens/pin_verification_screen.dart';
 
 class TaskManager extends StatelessWidget {
   const TaskManager({super.key});
@@ -51,7 +51,7 @@ class TaskManager extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.light,
-      home: const EmailVerificationScreen(),
+      home: const PinVerificationScreen(),
     );
   }
 }
