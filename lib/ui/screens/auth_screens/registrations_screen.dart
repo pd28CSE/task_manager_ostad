@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../styles/style.dart';
+import '../../widgets/screen_background.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String routeName = 'registration-screen/';
@@ -11,78 +11,110 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  bool isPasswordHidden = true;
+  bool isConfirmPasswordHidden = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          screenBackground(context),
-          SingleChildScrollView(
-            child: Ink(
-              padding: const EdgeInsets.all(30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Join With Us',
-                    style: head1Text(colorDarkBlue),
+      body: ScreenBackground(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Join With Us',
+                  style: Theme.of(context).textTheme.displayLarge,
+                ),
+                const SizedBox(height: 1),
+                Text(
+                  'Learn with rabbil hasan',
+                  style: Theme.of(context).textTheme.displayMedium,
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'First Name',
                   ),
-                  const SizedBox(height: 1),
-                  Text(
-                    'Learn with rabbil hasan',
-                    style: head6Text(colorLightGray),
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Last Name',
                   ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    decoration: appInputDecoration('First Name'),
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
                   ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    decoration: appInputDecoration('Last Name'),
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Phone',
                   ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    decoration: appInputDecoration('Email'),
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isPasswordHidden = !isPasswordHidden;
+                        });
+                      },
+                      icon: Visibility(
+                        visible: isPasswordHidden,
+                        replacement: const Icon(Icons.remove_red_eye),
+                        child: const Icon(Icons.visibility_off),
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    decoration: appInputDecoration('Phone'),
-                    keyboardType: TextInputType.number,
-                    textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                  obscureText: isPasswordHidden,
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Confirm Password',
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isConfirmPasswordHidden = !isConfirmPasswordHidden;
+                        });
+                      },
+                      icon: Visibility(
+                        visible: isConfirmPasswordHidden,
+                        replacement: const Icon(Icons.remove_red_eye),
+                        child: const Icon(Icons.visibility_off),
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    decoration: appInputDecoration('Password'),
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.next,
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    decoration: appInputDecoration('Confirm Password'),
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.done,
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    style: appButtonStyle(),
-                    onPressed: () {},
-                    child: successButtonChild('Registration'),
-                  ),
-                ],
-              ),
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.done,
+                  obscureText: isConfirmPasswordHidden,
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Registration'),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
