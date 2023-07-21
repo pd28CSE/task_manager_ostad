@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../styles/style.dart';
+import '../../widgets/screen_background.dart';
 
 class SetPasswordScreen extends StatefulWidget {
   static const String routeName = 'set-password-screen/';
@@ -14,48 +14,49 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          screenBackground(context),
-          Ink(
-            padding: const EdgeInsets.all(30),
+      body: ScreenBackground(
+        child: Padding(
+          padding: const EdgeInsets.all(30),
+          child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   'Set New Password',
-                  style: head1Text(colorDarkBlue),
+                  style: Theme.of(context).textTheme.displayLarge,
                 ),
                 const SizedBox(height: 1),
                 Text(
                   'Minimum length password 8 character with Latter and Number combination',
-                  style: head6Text(colorLightGray),
+                  style: Theme.of(context).textTheme.displayMedium,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  decoration: appInputDecoration('Password'),
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                  ),
+                  obscureText: true,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  decoration: appInputDecoration('Confirm Password'),
+                  decoration: const InputDecoration(
+                    labelText: 'Confirm Password',
+                  ),
+                  obscureText: true,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.done,
-                  obscureText: true,
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  style: appButtonStyle(),
                   onPressed: () {},
-                  child: successButtonChild('Confirm'),
+                  child: const Text('Confirm'),
                 ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

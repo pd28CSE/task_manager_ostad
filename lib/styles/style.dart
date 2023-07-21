@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -39,24 +38,6 @@ PinTheme appOTPStyle() {
   );
 }
 
-TextStyle head1Text(Color textColor) {
-  return TextStyle(
-    color: Color.fromRGBO(44, 62, 80, 1.0),
-    fontSize: 28,
-    fontFamily: 'Poppins',
-    fontWeight: FontWeight.w700,
-  );
-}
-
-TextStyle head6Text(Color textColor) {
-  return TextStyle(
-    color: Color.fromRGBO(135, 142, 150, 1.0),
-    fontSize: 16,
-    fontFamily: 'Poppins',
-    fontWeight: FontWeight.w400,
-  );
-}
-
 TextStyle head7Text(Color textColor) {
   return TextStyle(
     color: textColor,
@@ -72,22 +53,6 @@ TextStyle head9Text(Color textColor) {
     fontSize: 9,
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w500,
-  );
-}
-
-InputDecoration appInputDecoration(String label) {
-  return InputDecoration(
-    labelText: label,
-    focusedBorder: const OutlineInputBorder(
-      borderSide: BorderSide(color: colorGreen, width: 1),
-    ),
-    filled: true,
-    fillColor: colorWhite,
-    contentPadding: const EdgeInsets.fromLTRB(20, 10, 10, 20),
-    enabledBorder: const OutlineInputBorder(
-      borderSide: BorderSide(color: colorWhite, width: 0.0),
-    ),
-    border: const OutlineInputBorder(),
   );
 }
 
@@ -108,58 +73,11 @@ DecoratedBox appDropDownStyle(Widget child) {
   );
 }
 
-SvgPicture screenBackground(BuildContext context) {
-  Size size = MediaQuery.of(context).size;
-  return SvgPicture.asset(
-    'assets/images/screen_background.svg',
-    alignment: Alignment.center,
-    width: size.width,
-    height: size.height,
-    fit: BoxFit.cover,
-  );
-}
-
-ButtonStyle appButtonStyle() {
-  return ElevatedButton.styleFrom(
-    elevation: 1,
-    padding: EdgeInsets.zero,
-    backgroundColor: Colors.transparent,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(6),
-    ),
-  );
-}
-
 ButtonStyle appStatusButtonStyle(Color btnColor) {
   return ElevatedButton.styleFrom(
     elevation: 1,
     padding: EdgeInsets.zero,
     backgroundColor: btnColor,
-  );
-}
-
-TextStyle buttonTextStyle() {
-  return const TextStyle(
-    fontSize: 14,
-    fontFamily: 'Poppins',
-    fontWeight: FontWeight.w400,
-  );
-}
-
-Ink successButtonChild(String buttonText) {
-  return Ink(
-    decoration: BoxDecoration(
-      color: colorGreen,
-      borderRadius: BorderRadius.circular(6),
-    ),
-    child: Container(
-      height: 45,
-      alignment: Alignment.center,
-      child: Text(
-        buttonText,
-        style: buttonTextStyle(),
-      ),
-    ),
   );
 }
 
