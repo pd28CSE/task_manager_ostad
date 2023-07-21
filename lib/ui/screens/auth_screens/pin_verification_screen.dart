@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../styles/style.dart';
+import '../../../styles/style.dart';
 
 class PinVerificationScreen extends StatefulWidget {
   static const String routeName = 'pin-verification-screen/';

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../styles/style.dart';
+import '../../../styles/style.dart';
 
-class SetPasswordScreen extends StatefulWidget {
-  static const String routeName = 'set-password-screen/';
-  const SetPasswordScreen({super.key});
+class EmailVerificationScreen extends StatefulWidget {
+  static const String routeName = 'email-verification-screen/';
+  const EmailVerificationScreen({super.key});
 
   @override
-  State<SetPasswordScreen> createState() => _SetPasswordScreenState();
+  State<EmailVerificationScreen> createState() =>
+      _EmailVerificationScreenState();
 }
 
-class _SetPasswordScreenState extends State<SetPasswordScreen> {
+class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,32 +26,25 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Set New Password',
+                  'Your Email Address',
                   style: head1Text(colorDarkBlue),
                 ),
                 const SizedBox(height: 1),
                 Text(
-                  'Minimum length password 8 character with Latter and Number combination',
+                  '6 digit verification pin will send to your email address.',
                   style: head6Text(colorLightGray),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  decoration: appInputDecoration('Password'),
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  decoration: appInputDecoration('Confirm Password'),
-                  keyboardType: TextInputType.text,
+                  decoration: appInputDecoration('Email'),
+                  keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.done,
-                  obscureText: true,
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   style: appButtonStyle(),
                   onPressed: () {},
-                  child: successButtonChild('Confirm'),
+                  child: successButtonChild('Next'),
                 ),
               ],
             ),

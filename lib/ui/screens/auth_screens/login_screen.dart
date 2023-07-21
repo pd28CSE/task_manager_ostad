@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../styles/style.dart';
+import '../../../styles/style.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'login-screen/';

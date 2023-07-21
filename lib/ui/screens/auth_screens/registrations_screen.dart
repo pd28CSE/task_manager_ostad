@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../styles/style.dart';
+import '../../../styles/style.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String routeName = 'registration-screen/';

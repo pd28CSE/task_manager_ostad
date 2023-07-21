@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../../styles/style.dart';
+import '../../../styles/style.dart';
 
-class EmailVerificationScreen extends StatefulWidget {
-  static const String routeName = 'email-verification-screen/';
-  const EmailVerificationScreen({super.key});
+class SetPasswordScreen extends StatefulWidget {
+  static const String routeName = 'set-password-screen/';
+  const SetPasswordScreen({super.key});
 
   @override
-  State<EmailVerificationScreen> createState() =>
-      _EmailVerificationScreenState();
+  State<SetPasswordScreen> createState() => _SetPasswordScreenState();
 }
 
-class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
+class _SetPasswordScreenState extends State<SetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,25 +25,32 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Your Email Address',
+                  'Set New Password',
                   style: head1Text(colorDarkBlue),
                 ),
                 const SizedBox(height: 1),
                 Text(
-                  '6 digit verification pin will send to your email address.',
+                  'Minimum length password 8 character with Latter and Number combination',
                   style: head6Text(colorLightGray),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  decoration: appInputDecoration('Email'),
-                  keyboardType: TextInputType.emailAddress,
+                  decoration: appInputDecoration('Password'),
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  decoration: appInputDecoration('Confirm Password'),
+                  keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.done,
+                  obscureText: true,
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   style: appButtonStyle(),
                   onPressed: () {},
-                  child: successButtonChild('Next'),
+                  child: successButtonChild('Confirm'),
                 ),
               ],
             ),
