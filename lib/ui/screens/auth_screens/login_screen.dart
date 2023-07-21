@@ -50,9 +50,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                style: appButtonStyle(),
                 onPressed: () {},
-                child: successButtonChild('Login'),
+                child: const Text('Login'),
               ),
             ],
           ),

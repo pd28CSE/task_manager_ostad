@@ -36,6 +36,12 @@ class TaskManager extends StatelessWidget {
             borderSide: BorderSide(color: Colors.green),
           ),
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size.fromHeight(45),
+            backgroundColor: const Color.fromRGBO(33, 191, 115, 1),
+          ),
+        ),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
