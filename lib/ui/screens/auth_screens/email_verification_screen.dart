@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/screen_background.dart';
+import './pin_verification_screen.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
   static const String routeName = 'email-verification-screen/';
@@ -39,7 +40,14 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (cntxt) => const PinVerificationScreen(),
+                      ),
+                    );
+                  },
                   child: const Text('Next'),
                 ),
               ],

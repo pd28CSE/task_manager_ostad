@@ -3,6 +3,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../styles/style.dart';
 import '../../widgets/screen_background.dart';
+import './set_password_screen.dart';
 
 class PinVerificationScreen extends StatefulWidget {
   static const String routeName = 'pin-verification-screen/';
@@ -41,7 +42,14 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (cntxt) => const SetPasswordScreen(),
+                        ),
+                      );
+                    },
                     child: const Text('Confirm'),
                   ),
                 ],

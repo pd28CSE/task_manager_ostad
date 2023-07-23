@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/screen_background.dart';
+import '../task_screens/bottom_nav_base_screen.dart';
+import './email_verification_screen.dart';
+import './registrations_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'login-screen/';
@@ -64,13 +67,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20.0),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (cntxt) => const BottomNavBaseScreen(),
+                        ),
+                        (route) => false,
+                      );
+                    },
                     child: const Text('Login'),
                   ),
                   const SizedBox(height: 16.0),
                   Center(
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (cntxt) => const EmailVerificationScreen(),
+                          ),
+                        );
+                      },
                       child: const Text('Forgot Password?'),
                     ),
                   ),
@@ -82,7 +100,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (cntxt) => const RegistrationScreen(),
+                            ),
+                          );
+                        },
                         child: const Text('Sign Up'),
                       ),
                     ],

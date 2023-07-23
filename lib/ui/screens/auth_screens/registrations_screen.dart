@@ -111,6 +111,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   onPressed: () {},
                   child: const Text('Registration'),
                 ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text('Have an account?'),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Sign In'),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

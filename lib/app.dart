@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './ui/screens/auth_screens/set_password_screen.dart';
+import './ui/screens/auth_screens/splash_screen.dart';
 
 class TaskManager extends StatelessWidget {
   const TaskManager({super.key});
@@ -54,7 +54,7 @@ class TaskManager extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.light,
-      home: const SetPasswordScreen(),
+      home: const SplashScreen(),
     );
   }
 }
