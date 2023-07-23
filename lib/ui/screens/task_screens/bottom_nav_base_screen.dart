@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import './new_task_list_screen.dart';
+import './progress_task_list_screen.dart';
 
 class BottomNavBaseScreen extends StatefulWidget {
   const BottomNavBaseScreen({super.key});
@@ -16,6 +17,7 @@ class _BottomNavBaseScreenState extends State<BottomNavBaseScreen> {
 
   final List<Widget> _screens = const <Widget>[
     NewTaskListScreen(),
+    ProgressTaskListScreen(),
   ];
 
   @override
