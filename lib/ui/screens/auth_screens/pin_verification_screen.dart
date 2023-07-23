@@ -26,12 +26,12 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                 children: <Widget>[
                   Text(
                     'PIN Verification',
-                    style: Theme.of(context).textTheme.displayLarge,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 1),
                   Text(
                     'A 6 digit pin has been send to your phone number',
-                    style: Theme.of(context).textTheme.displayMedium,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 20),
                   PinCodeTextField(

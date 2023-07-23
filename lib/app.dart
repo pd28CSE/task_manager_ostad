@@ -14,13 +14,13 @@ class TaskManager extends StatelessWidget {
         primarySwatch: Colors.green,
         brightness: Brightness.light,
         textTheme: const TextTheme(
-          displayLarge: TextStyle(
+          titleLarge: TextStyle(
             color: Color.fromRGBO(44, 62, 80, 1.0),
             fontSize: 28,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w700,
           ),
-          displayMedium: TextStyle(
+          titleMedium: TextStyle(
             color: Color.fromRGBO(135, 142, 150, 1.0),
             fontSize: 16,
             fontFamily: 'Poppins',

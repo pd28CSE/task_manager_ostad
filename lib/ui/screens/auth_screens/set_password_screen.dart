@@ -23,12 +23,12 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
               children: <Widget>[
                 Text(
                   'Set New Password',
-                  style: Theme.of(context).textTheme.displayLarge,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 1),
                 Text(
                   'Minimum length password 8 character with Latter and Number combination',
-                  style: Theme.of(context).textTheme.displayMedium,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(

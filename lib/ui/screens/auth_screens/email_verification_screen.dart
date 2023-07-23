@@ -24,12 +24,12 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               children: <Widget>[
                 Text(
                   'Your Email Address',
-                  style: Theme.of(context).textTheme.displayLarge,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 1),
                 Text(
                   '6 digit verification pin will send to your email address.',
-                  style: Theme.of(context).textTheme.displayMedium,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
