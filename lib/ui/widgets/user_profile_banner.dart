@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/profile_screens/profile_update_screen.dart';
+
 class UserProfileBanner extends StatelessWidget {
   final String fullName;
   final String userEmail;
@@ -33,6 +35,12 @@ class UserProfileBanner extends StatelessWidget {
           fontSize: 12,
         ),
       ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (cntxt) => const ProfileUpdateScreen()),
+        );
+      },
     );
   }
 }

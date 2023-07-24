@@ -61,7 +61,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   decoration: const InputDecoration(
                     labelText: 'Phone',
                   ),
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.phone,
                   textInputAction: TextInputAction.next,
                 ),
                 const SizedBox(height: 20),
