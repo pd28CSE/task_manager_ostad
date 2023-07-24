@@ -73,14 +73,6 @@ DecoratedBox appDropDownStyle(Widget child) {
   );
 }
 
-ButtonStyle appStatusButtonStyle(Color btnColor) {
-  return ElevatedButton.styleFrom(
-    elevation: 1,
-    padding: EdgeInsets.zero,
-    backgroundColor: btnColor,
-  );
-}
-
 Container statusChild(String statusText, Color statusColor) {
   return Container(
     alignment: Alignment.center,

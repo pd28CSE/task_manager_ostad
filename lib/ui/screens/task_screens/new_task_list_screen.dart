@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../widgets/summary_card.dart';
 import '../../widgets/task_list_tile.dart';
 import '../../widgets/user_profile_banner.dart';
+import './add_new_task_screen.dart';
 
 class NewTaskListScreen extends StatelessWidget {
   const NewTaskListScreen({super.key});
@@ -40,7 +41,12 @@ class NewTaskListScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (cntxt) => const AddNewTaskScreen()),
+          );
+        },
         child: const Icon(Icons.add),
       ),
     );
