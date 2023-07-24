@@ -33,9 +33,8 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
                       'Update Profile',
