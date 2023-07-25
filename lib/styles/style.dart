@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 const colorRed = Color.fromRGBO(231, 28, 36, 1);
@@ -80,29 +79,5 @@ Container statusChild(String statusText, Color statusColor) {
         fontWeight: FontWeight.w400,
       ),
     ),
-  );
-}
-
-void successToast(String message) {
-  Fluttertoast.showToast(
-    msg: message,
-    gravity: ToastGravity.BOTTOM,
-    timeInSecForIosWeb: 2,
-    toastLength: Toast.LENGTH_SHORT,
-    backgroundColor: colorGreen,
-    textColor: colorWhite,
-    fontSize: 16.0,
-  );
-}
-
-void errorToast(String message) {
-  Fluttertoast.showToast(
-    msg: message,
-    gravity: ToastGravity.BOTTOM,
-    timeInSecForIosWeb: 2,
-    toastLength: Toast.LENGTH_SHORT,
-    backgroundColor: colorRed,
-    textColor: colorWhite,
-    fontSize: 16.0,
   );
 }
