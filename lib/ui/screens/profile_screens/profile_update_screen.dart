@@ -16,16 +16,15 @@ class ProfileUpdateScreen extends StatefulWidget {
 class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   bool isPasswordHidden = true;
   bool isConfirmPasswordHidden = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScreenBackground(
         child: Column(
           children: <Widget>[
-            const DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.green,
-              ),
+            const Material(
+              elevation: 8,
               child: UserProfileBanner(
                 fullName: 'Partho Debnath',
                 userEmail: 'user@example.com',
@@ -36,6 +35,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                 padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
                 child: SingleChildScrollView(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
                         'Update Profile',
@@ -153,10 +153,45 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
     );
   }
 
+  Future<ImageSource?> storageSelection() {
+    return showDialog<ImageSource>(
+      context: context,
+      builder: (cntxt) {
+        return AlertDialog(
+            content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              onTap: () {
+                if (mounted) {
+                  Navigator.pop(context, ImageSource.camera);
+                }
+              },
+              leading: const Icon(Icons.camera_alt_rounded),
+              title: const Text('Camera'),
+            ),
+            ListTile(
+              onTap: () {
+                if (mounted) {
+                  Navigator.pop(context, ImageSource.gallery);
+                }
+              },
+              leading: const Icon(Icons.camera),
+              title: const Text('Gallery'),
+            ),
+          ],
+        ));
+      },
+    );
+  }
+
   Future<void> pickImageFromGallery() async {
     try {
-      final XFile? image =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
+      ImageSource? imageSource = await storageSelection();
+      if (imageSource == null) {
+        return;
+      }
+      final XFile? image = await ImagePicker().pickImage(source: imageSource);
       print(image?.path);
     } catch (e) {
       print(e.toString());
