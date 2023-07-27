@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../data/models/auth_utility.dart';
 import '../../utilitys/assets_utils.dart';
 import '../../widgets/screen_background.dart';
+import '../task_screens/bottom_nav_base_screen.dart';
 import './login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,14 +22,18 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
-  void navigateToLoginScreen() {
+  Future<void> navigateToLoginScreen() async {
+    bool isLogedIn = await AuthUtility.isUserLoggedIn();
+
     Future.delayed(const Duration(seconds: 3)).then(
       (value) {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (cntxt) {
-              return const LoginScreen();
+              return isLogedIn == false
+                  ? const LoginScreen()
+                  : const BottomNavBaseScreen();
             },
           ),
           (route) => false,

@@ -11,7 +11,8 @@ class AuthUtility {
 
   static Future<void> saveUserInfo(AuthUserModel authUserModel) async {
     final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-    await sharedPrefs.setString('user-auth', authUserModel.toJson().toString());
+    await sharedPrefs.setString(
+        'user-auth', jsonEncode(authUserModel.toJson()));
     userModel = authUserModel;
   }
 
@@ -19,6 +20,15 @@ class AuthUtility {
     final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
     String userAuthData = sharedPrefs.getString('user-auth')!;
     return AuthUserModel.fromJson(jsonDecode(userAuthData));
+  }
+
+  static Future<bool> isUserLoggedIn() async {
+    final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = sharedPrefs.containsKey('user-auth');
+    if (isLoggedIn == true) {
+      userModel = await getUserInfo();
+    }
+    return isLoggedIn;
   }
 
   static Future<void> clearUserInfo() async {
