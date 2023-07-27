@@ -1,8 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
 
+import '../../app.dart';
+import '../../ui/screens/auth_screens/login_screen.dart';
+import '../models/auth_utility.dart';
 import '../models/network_response.dart';
 
 class NetworkCaller {
@@ -12,7 +17,7 @@ class NetworkCaller {
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
-          'token': '',
+          'token': AuthUtility.userModel.token.toString(),
         },
       );
 
@@ -47,7 +52,7 @@ class NetworkCaller {
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
-          'token': '',
+          'token': AuthUtility.userModel.token.toString(),
         },
         body: jsonEncode(body),
       );
@@ -60,6 +65,8 @@ class NetworkCaller {
           statusCode: response.statusCode,
           body: responseBody,
         );
+      } else if (response.statusCode == 401) {
+        goToLoginScreen();
       } else {
         return NetworkResponse(
           isSuccess: false,
@@ -69,11 +76,18 @@ class NetworkCaller {
       }
     } catch (error) {
       log(error.toString());
-      return NetworkResponse(
-        isSuccess: false,
-        statusCode: -1,
-        body: null,
-      );
     }
+    return NetworkResponse(isSuccess: false, statusCode: -1, body: null);
+  }
+
+  Future<void> goToLoginScreen() async {
+    await AuthUtility.clearUserInfo();
+    Navigator.pushAndRemoveUntil(
+      TaskManager.globalKey.currentState!.context,
+      MaterialPageRoute(builder: (cntxt) {
+        return const LoginScreen();
+      }),
+      (route) => false,
+    );
   }
 }
