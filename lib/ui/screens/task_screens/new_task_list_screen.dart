@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 import '../../../data/models/network_response.dart';
@@ -20,11 +18,13 @@ class NewTaskListScreen extends StatefulWidget {
 }
 
 class _NewTaskListScreenState extends State<NewTaskListScreen> {
-  List<Data> taskList = [];
-  bool isLoading = true;
+  late List<Data> taskList;
+  late bool isLoading;
 
   @override
   void initState() {
+    taskList = [];
+    isLoading = true;
     getNewTaskList();
     super.initState();
   }
