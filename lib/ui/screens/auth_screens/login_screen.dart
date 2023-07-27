@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/models/auth_utility.dart';
 import '../../../data/models/network_response.dart';
+import '../../../data/models/user_model.dart';
 import '../../../data/services/network_caller.dart';
 import '../../../data/utilitys/urls.dart';
+import '../../utilitys/toast_message.dart';
 import '../../widgets/screen_background.dart';
 import '../task_screens/bottom_nav_base_screen.dart';
 import './email_verification_screen.dart';
@@ -70,6 +73,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Enter your Email';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
@@ -92,6 +101,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscureText: isPasswordHidden,
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.done,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Enter your Password';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 20.0),
                     buildSubmitButton(),
@@ -165,25 +180,29 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> userSignIn() async {
+    signinInProgress = true;
     if (mounted == true) {
-      signinInProgress = true;
       setState(() {});
     }
 
-    final Map<String, dynamic> body = {
+    final Map<String, dynamic> requestBody = {
       'email': emailController.text.trim(),
       'password': passwordController.text,
     };
+
     final NetworkResponse networkResponse = await NetworkCaller().postRequest(
       url: Urls.login,
-      body: body,
+      body: requestBody,
     );
 
+    signinInProgress = false;
     if (mounted == true) {
-      signinInProgress = false;
       setState(() {});
     }
     if (networkResponse.isSuccess == true) {
+      AuthUserModel authUserModel =
+          AuthUserModel.fromJson(networkResponse.body!);
+      AuthUtility.saveUserInfo(authUserModel);
       clearForm();
       if (mounted) {
         Navigator.pushAndRemoveUntil(
@@ -196,11 +215,12 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } else {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Login Failed!'),
-          ),
-        );
+        showToastMessage('Incorrect email or password!', Colors.red);
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   const SnackBar(
+        //     content: Text('Incorrect email or password!'),
+        //   ),
+        // );
       }
     }
   }

@@ -8,7 +8,13 @@ import '../models/network_response.dart';
 class NetworkCaller {
   Future<NetworkResponse> getRequest(String url) async {
     try {
-      final Response response = await get(Uri.parse(url));
+      final Response response = await get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'token': '',
+        },
+      );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseBody = jsonDecode(response.body);
@@ -41,6 +47,7 @@ class NetworkCaller {
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
+          'token': '',
         },
         body: jsonEncode(body),
       );
