@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
 
 import '../../app.dart';
@@ -89,5 +88,15 @@ class NetworkCaller {
       }),
       (route) => false,
     );
+  }
+
+  Future<NetworkResponse> deleteTaskById(
+      {required String url, required String id}) {
+    return getRequest('$url/$id');
+  }
+
+  Future<NetworkResponse> getTaskListByStatus(
+      {required String url, required String status}) {
+    return getRequest('$url/$status');
   }
 }

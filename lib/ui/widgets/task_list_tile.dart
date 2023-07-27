@@ -1,32 +1,41 @@
 import 'package:flutter/material.dart';
 
+import '../../data/models/task_model.dart';
+
 class TaskListTile extends StatelessWidget {
+  final Future<void> Function(String) onDelete;
+  final Data task;
   const TaskListTile({
+    required this.task,
+    required this.onDelete,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: const Text('gsdg'),
+      title: Text(task.title.toString()),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const Text('Title will be here'),
-          const Text('Date'),
+          Text(task.description.toString()),
+          Text("Date: ${task.createdDate!.replaceAll('-', '/')}"),
           Row(
             children: <Widget>[
-              const Chip(
-                backgroundColor: Colors.blue,
+              Chip(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                backgroundColor: getColor(task.status.toString()),
                 label: Text(
-                  'New',
-                  style: TextStyle(color: Colors.white),
+                  task.status.toString(),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
               const Spacer(),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  deleteConfirmation(context);
+                },
                 icon: Icon(
                   Icons.delete_forever_outlined,
                   color: Colors.red.shade300,
@@ -44,5 +53,56 @@ class TaskListTile extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Color getColor(String status) {
+    switch (status) {
+      case 'New':
+        return Colors.blue;
+      case 'Cancled':
+        return Colors.red;
+      case 'Completed':
+        return Colors.green;
+      default:
+        return Colors.purple;
+    }
+  }
+
+  void deleteConfirmation(BuildContext context) {
+    showDialog<bool>(
+      context: context,
+      builder: (cntxt) {
+        return AlertDialog(
+          icon: const Icon(
+            Icons.dangerous_outlined,
+            size: 50,
+            color: Colors.red,
+          ),
+          title: const Text('Are you sure?'),
+          content: const Text('If you delete, you can not get it back.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+              child: const Text('No'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+              child: const Text(
+                'Yes',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
+        );
+      },
+    ).then((value) async {
+      if (value == true) {
+        await onDelete(task.sId.toString());
+      }
+    });
   }
 }

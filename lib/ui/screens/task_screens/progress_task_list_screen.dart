@@ -1,10 +1,35 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/models/network_response.dart';
+import '../../../data/models/task_model.dart';
+import '../../../data/services/network_caller.dart';
+import '../../../data/utilitys/urls.dart';
+import '../../utilitys/toast_message.dart';
 import '../../widgets/task_list_tile.dart';
 import '../../widgets/user_profile_banner.dart';
 
-class ProgressTaskListScreen extends StatelessWidget {
+class ProgressTaskListScreen extends StatefulWidget {
   const ProgressTaskListScreen({super.key});
+
+  @override
+  State<ProgressTaskListScreen> createState() => _ProgressTaskListScreenState();
+}
+
+class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
+  List<Data> taskList = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    getProgressTaskList();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    taskList.clear();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,18 +43,55 @@ class ProgressTaskListScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Expanded(
-              child: ListView.separated(
-                padding: const EdgeInsets.all(10),
-                itemCount: 10,
-                itemBuilder: (cntxt, index) {
-                  return const TaskListTile();
-                },
-                separatorBuilder: (cntxt, index) => const Divider(),
+              child: Visibility(
+                visible: isLoading == true,
+                replacement: RefreshIndicator(
+                  onRefresh: getProgressTaskList,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(10),
+                    itemCount: taskList.length,
+                    itemBuilder: (cntxt, index) {
+                      return TaskListTile(
+                        task: taskList[index],
+                        onDelete: deleteTask,
+                      );
+                    },
+                    separatorBuilder: (cntxt, index) => const Divider(),
+                  ),
+                ),
+                child: const Center(child: CircularProgressIndicator()),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> getProgressTaskList() async {
+    final NetworkResponse networkResponse = await NetworkCaller()
+        .getTaskListByStatus(url: Urls.getTaskListByStatus, status: 'Progress');
+    if (networkResponse.isSuccess == true) {
+      TaskListModel responseBody =
+          TaskListModel.fromJson(networkResponse.body!);
+      taskList = responseBody.data!;
+      if (mounted) {
+        isLoading = false;
+        setState(() {});
+      }
+    }
+  }
+
+  Future<void> deleteTask(String taskId) async {
+    final NetworkResponse networkResponse =
+        await NetworkCaller().deleteTaskById(url: Urls.deleteTask, id: taskId);
+
+    if (networkResponse.isSuccess == true) {
+      showToastMessage('Delete Successful', Colors.green);
+      taskList.clear();
+      await getProgressTaskList();
+    } else {
+      showToastMessage('Delete request failed!', Colors.red);
+    }
   }
 }

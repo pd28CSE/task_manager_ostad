@@ -26,8 +26,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
             const Material(
               elevation: 8,
               child: UserProfileBanner(
-                fullName: 'Partho Debnath',
-                userEmail: 'user@example.com',
+                isCurrectPageIsProfile: true,
               ),
             ),
             Expanded(
