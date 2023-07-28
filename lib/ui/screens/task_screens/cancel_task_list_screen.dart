@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../../data/models/network_response.dart';
@@ -84,6 +86,10 @@ class _CancleTaskListScreenState extends State<CancleTaskListScreen> {
   }
 
   Future<void> deleteTask(String taskId) async {
+    isLoading = true;
+    if (mounted) {
+      setState(() {});
+    }
     final NetworkResponse networkResponse =
         await NetworkCaller().deleteTaskById(url: Urls.deleteTask, id: taskId);
 
@@ -96,6 +102,9 @@ class _CancleTaskListScreenState extends State<CancleTaskListScreen> {
   }
 
   Future<void> updateTaskByStatus(String taskId, String status) async {
+    isLoading = true;
+    setState(() {});
+    if (mounted) {}
     final NetworkResponse networkResponse = await NetworkCaller()
         .getRequest('${Urls.updateTaskByStatus}/$taskId/$status');
 

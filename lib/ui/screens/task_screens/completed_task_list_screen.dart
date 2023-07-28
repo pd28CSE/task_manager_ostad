@@ -86,6 +86,8 @@ class _CompletedTaskListScreenState extends State<CompletedTaskListScreen> {
   }
 
   Future<void> deleteTask(String taskId) async {
+    isLoading = true;
+    setState(() {});
     final NetworkResponse networkResponse =
         await NetworkCaller().deleteTaskById(url: Urls.deleteTask, id: taskId);
 
@@ -99,6 +101,8 @@ class _CompletedTaskListScreenState extends State<CompletedTaskListScreen> {
   }
 
   Future<void> updateTaskByStatus(String taskId, String status) async {
+    isLoading = true;
+    setState(() {});
     final NetworkResponse networkResponse = await NetworkCaller()
         .getRequest('${Urls.updateTaskByStatus}/$taskId/$status');
 

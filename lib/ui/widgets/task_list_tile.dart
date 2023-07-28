@@ -22,11 +22,9 @@ class TaskListTile extends StatefulWidget {
 
 class _TaskListTileState extends State<TaskListTile> {
   late TaskStatusList currentStatus;
-  late bool isSavingInProgress;
 
   @override
   void initState() {
-    isSavingInProgress = false;
     initialStatus();
     super.initState();
   }
@@ -214,25 +212,17 @@ class _TaskListTileState extends State<TaskListTile> {
   ElevatedButton buildButton(
       BuildContext cntxt, void Function(void Function()) newState) {
     return ElevatedButton(
-      onPressed: isSavingInProgress == false
-          ? () async {
-              isSavingInProgress = true;
-              if (mounted) {
-                newState(() {});
-              }
-              await widget.onStatusUpdate(widget.task.sId!, currentStatus.name);
-              isSavingInProgress = false;
-              log(mounted.toString());
-              //  if (mounted) {
-              Navigator.pop(cntxt);
-              // }
-            }
-          : null,
-      child: Visibility(
-        visible: isSavingInProgress == false,
-        replacement: const Center(child: CircularProgressIndicator()),
-        child: const Text('Save'),
-      ),
+      onPressed: () async {
+        if (mounted) {
+          newState(() {});
+        }
+        log(mounted.toString());
+        //  if (mounted) {
+        Navigator.pop(cntxt);
+        // }
+        await widget.onStatusUpdate(widget.task.sId!, currentStatus.name);
+      },
+      child: const Text('Confirm'),
     );
   }
 }

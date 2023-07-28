@@ -117,10 +117,6 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
   }
 
   Future<void> getNewTaskList() async {
-    isLoading = true;
-    if (mounted) {
-      setState(() {});
-    }
     final NetworkResponse networkResponse = await NetworkCaller()
         .getTaskListByStatus(url: Urls.getTaskListByStatus, status: 'New');
     if (networkResponse.isSuccess == true) {
@@ -138,6 +134,10 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
   }
 
   Future<void> getTaskListStatus() async {
+    isLoading = true;
+    if (mounted) {
+      setState(() {});
+    }
     final NetworkResponse networkResponse =
         await NetworkCaller().getRequest(Urls.getTaskListStatus);
     if (networkResponse.isSuccess == true) {
@@ -189,6 +189,10 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
   }
 
   Future<void> updateTaskByStatus(String taskId, String status) async {
+    isLoading = true;
+    if (mounted) {
+      setState(() {});
+    }
     final NetworkResponse networkResponse = await NetworkCaller()
         .getRequest('${Urls.updateTaskByStatus}/$taskId/$status');
 
