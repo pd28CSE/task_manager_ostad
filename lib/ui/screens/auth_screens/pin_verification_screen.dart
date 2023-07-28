@@ -62,6 +62,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                     key: formKey,
                     child: PinCodeTextField(
                       controller: pinController,
+                      autoDisposeControllers: false,
                       pinTheme: appOTPStyle(),
                       appContext: context,
                       length: 6,
