@@ -54,6 +54,7 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
                       return TaskListTile(
                         task: taskList[index],
                         onDelete: deleteTask,
+                        onStatusUpdate: updateTaskByStatus,
                       );
                     },
                     separatorBuilder: (cntxt, index) => const Divider(),
@@ -92,6 +93,18 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
       await getProgressTaskList();
     } else {
       showToastMessage('Delete request failed!', Colors.red);
+    }
+  }
+
+  Future<void> updateTaskByStatus(String taskId, String status) async {
+    final NetworkResponse networkResponse = await NetworkCaller()
+        .getRequest('${Urls.updateTaskByStatus}/$taskId/$status');
+
+    if (networkResponse.isSuccess == true) {
+      showToastMessage('Update Successful', Colors.green);
+      await getProgressTaskList();
+    } else {
+      showToastMessage('Update request failed!', Colors.red);
     }
   }
 }

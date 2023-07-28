@@ -55,6 +55,7 @@ class _CompletedTaskListScreenState extends State<CompletedTaskListScreen> {
                       return TaskListTile(
                         task: taskList[index],
                         onDelete: deleteTask,
+                        onStatusUpdate: updateTaskByStatus,
                       );
                     },
                     separatorBuilder: (cntxt, index) => const Divider(),
@@ -94,6 +95,18 @@ class _CompletedTaskListScreenState extends State<CompletedTaskListScreen> {
       await getCompletedTaskList();
     } else {
       showToastMessage('Delete request failed!', Colors.red);
+    }
+  }
+
+  Future<void> updateTaskByStatus(String taskId, String status) async {
+    final NetworkResponse networkResponse = await NetworkCaller()
+        .getRequest('${Urls.updateTaskByStatus}/$taskId/$status');
+
+    if (networkResponse.isSuccess == true) {
+      showToastMessage('Update Successful', Colors.green);
+      await getCompletedTaskList();
+    } else {
+      showToastMessage('Update request failed!', Colors.red);
     }
   }
 }

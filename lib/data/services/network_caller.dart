@@ -20,7 +20,7 @@ class NetworkCaller {
           'token': token,
         },
       );
-
+      log(response.body);
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseBody = jsonDecode(response.body);
         return NetworkResponse(

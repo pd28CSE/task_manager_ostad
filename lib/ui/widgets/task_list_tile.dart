@@ -1,33 +1,66 @@
 import 'package:flutter/material.dart';
 
 import '../../data/models/task_model.dart';
+import '../utilitys/task_status_options.dart';
 
-class TaskListTile extends StatelessWidget {
+class TaskListTile extends StatefulWidget {
   final Future<void> Function(String) onDelete;
+  final Future<void> Function(String, String) onStatusUpdate;
   final Data task;
   const TaskListTile({
     required this.task,
     required this.onDelete,
+    required this.onStatusUpdate,
     super.key,
   });
 
   @override
+  State<TaskListTile> createState() => _TaskListTileState();
+}
+
+class _TaskListTileState extends State<TaskListTile> {
+  late TaskStatusList currentStatus;
+  late bool isSavingInProgress;
+
+  @override
+  void initState() {
+    isSavingInProgress = false;
+    initialStatus();
+    super.initState();
+  }
+
+  void initialStatus() {
+    if (widget.task.status!.contains(TaskStatusList.New.name)) {
+      currentStatus = TaskStatusList.New;
+    } else if (widget.task.status!.contains(TaskStatusList.Progress.name)) {
+      currentStatus = TaskStatusList.Progress;
+    } else if (widget.task.status!.contains(TaskStatusList.Completed.name)) {
+      currentStatus = TaskStatusList.Completed;
+    } else if (widget.task.status!.contains(TaskStatusList.Cancled.name)) {
+      currentStatus = TaskStatusList.Cancled;
+    }
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(task.title.toString()),
+      title: Text(widget.task.title.toString()),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(task.description.toString()),
-          Text("Date: ${task.createdDate!.replaceAll('-', '/')}"),
+          Text(widget.task.description.toString()),
+          Text("Date: ${widget.task.createdDate!.replaceAll('-', '/')}"),
           Row(
             children: <Widget>[
               Chip(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                backgroundColor: getColor(task.status.toString()),
+                backgroundColor: getColor(widget.task.status.toString()),
                 label: Text(
-                  task.status.toString(),
+                  widget.task.status.toString(),
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
@@ -52,6 +85,9 @@ class TaskListTile extends StatelessWidget {
           ),
         ],
       ),
+      onLongPress: () {
+        showTaskStatus(context);
+      },
     );
   }
 
@@ -101,8 +137,99 @@ class TaskListTile extends StatelessWidget {
       },
     ).then((value) async {
       if (value == true) {
-        await onDelete(task.sId.toString());
+        await widget.onDelete(widget.task.sId.toString());
       }
     });
+  }
+
+  void showTaskStatus(BuildContext context) {
+    showModalBottomSheet<void>(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        ),
+      ),
+      showDragHandle: true,
+      context: context,
+      builder: (cntxt) {
+        return StatefulBuilder(builder: (cntxt, newState) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                RadioListTile<TaskStatusList>(
+                  title: Text(TaskStatusList.New.name),
+                  value: TaskStatusList.New,
+                  groupValue: currentStatus,
+                  onChanged: (value) {
+                    newState(() {
+                      currentStatus = value!;
+                    });
+                  },
+                ),
+                RadioListTile<TaskStatusList>(
+                  title: Text(TaskStatusList.Progress.name),
+                  value: TaskStatusList.Progress,
+                  groupValue: currentStatus,
+                  onChanged: (value) {
+                    newState(() {
+                      currentStatus = value!;
+                    });
+                  },
+                ),
+                RadioListTile<TaskStatusList>(
+                  title: Text(TaskStatusList.Cancled.name),
+                  value: TaskStatusList.Cancled,
+                  groupValue: currentStatus,
+                  onChanged: (value) {
+                    newState(() {
+                      currentStatus = value!;
+                    });
+                  },
+                ),
+                RadioListTile<TaskStatusList>(
+                  title: Text(TaskStatusList.Completed.name),
+                  value: TaskStatusList.Completed,
+                  groupValue: currentStatus,
+                  onChanged: (value) {
+                    newState(() {
+                      currentStatus = value!;
+                    });
+                  },
+                ),
+                const SizedBox(height: 10),
+                buildButton(cntxt, newState),
+              ],
+            ),
+          );
+        });
+      },
+    );
+  }
+
+  ElevatedButton buildButton(
+      BuildContext cntxt, void Function(void Function()) newState) {
+    return ElevatedButton(
+      onPressed: isSavingInProgress == false
+          ? () async {
+              isSavingInProgress = true;
+              if (mounted) {
+                newState(() {});
+              }
+              await widget.onStatusUpdate(widget.task.sId!, currentStatus.name);
+              isSavingInProgress = true;
+              if (mounted) {
+                Navigator.pop(cntxt);
+              }
+            }
+          : null,
+      child: Visibility(
+        visible: isSavingInProgress == false,
+        replacement: const Center(child: CircularProgressIndicator()),
+        child: const Text('Save'),
+      ),
+    );
   }
 }

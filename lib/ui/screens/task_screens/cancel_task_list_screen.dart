@@ -54,6 +54,7 @@ class _CancleTaskListScreenState extends State<CancleTaskListScreen> {
                       return TaskListTile(
                         task: taskList[index],
                         onDelete: deleteTask,
+                        onStatusUpdate: updateTaskByStatus,
                       );
                     },
                     separatorBuilder: (cntxt, index) => const Divider(),
@@ -91,6 +92,18 @@ class _CancleTaskListScreenState extends State<CancleTaskListScreen> {
       await getCancledTaskList();
     } else {
       showToastMessage('Delete request failed!', Colors.red);
+    }
+  }
+
+  Future<void> updateTaskByStatus(String taskId, String status) async {
+    final NetworkResponse networkResponse = await NetworkCaller()
+        .getRequest('${Urls.updateTaskByStatus}/$taskId/$status');
+
+    if (networkResponse.isSuccess == true) {
+      showToastMessage('Update Successful', Colors.green);
+      await getCancledTaskList();
+    } else {
+      showToastMessage('Update request failed!', Colors.red);
     }
   }
 }

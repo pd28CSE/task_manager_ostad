@@ -68,6 +68,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
                       return TaskListTile(
                         task: taskList[index],
                         onDelete: deleteTask,
+                        onStatusUpdate: updateTaskByStatus,
                       );
                     },
                     separatorBuilder: (cntxt, index) => const Divider(),
@@ -141,6 +142,18 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
         ),
         (route) => false,
       );
+    }
+  }
+
+  Future<void> updateTaskByStatus(String taskId, String status) async {
+    final NetworkResponse networkResponse = await NetworkCaller()
+        .getRequest('${Urls.updateTaskByStatus}/$taskId/$status');
+
+    if (networkResponse.isSuccess == true) {
+      showToastMessage('Update Successful', Colors.green);
+      await getNewTaskList();
+    } else {
+      showToastMessage('Update request failed!', Colors.red);
     }
   }
 }
