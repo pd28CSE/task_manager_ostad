@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../data/models/auth_utility.dart';
 import '../../../data/models/network_response.dart';
+import '../../../data/models/status_count.dart';
 import '../../../data/models/task_model.dart';
 import '../../../data/services/network_caller.dart';
 import '../../../data/utilitys/urls.dart';
@@ -21,19 +22,29 @@ class NewTaskListScreen extends StatefulWidget {
 
 class _NewTaskListScreenState extends State<NewTaskListScreen> {
   late List<Data> taskList;
+  late List<TaskStatusModel> taskStatusList;
   late bool isLoading;
+  Map<String, int> taskStatus = {
+    'Progress': 0,
+    'Completed': 0,
+    'New': 0,
+    'Cancled': 0,
+  };
 
   @override
   void initState() {
     taskList = [];
+    taskStatusList = [];
     isLoading = true;
     getNewTaskList();
+    getTaskListStatus();
     super.initState();
   }
 
   @override
   void dispose() {
     taskList.clear();
+    taskStatusList.clear();
     super.dispose();
   }
 
@@ -48,12 +59,23 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
               userEmail: 'parthodebnath28@gmail.com',
             ),
             const SizedBox(height: 10),
-            const Row(
+            Row(
               children: <Widget>[
-                Expanded(child: SummaryCard(title: 'New', number: 10)),
-                Expanded(child: SummaryCard(title: 'In Progress', number: 10)),
-                Expanded(child: SummaryCard(title: 'Cancle', number: 10)),
-                Expanded(child: SummaryCard(title: 'Completed', number: 10)),
+                Expanded(
+                  child: SummaryCard(title: 'New', number: taskStatus['New']!),
+                ),
+                Expanded(
+                  child: SummaryCard(
+                      title: 'In Progress', number: taskStatus['Progress']!),
+                ),
+                Expanded(
+                  child: SummaryCard(
+                      title: 'Cancle', number: taskStatus['Cancled']!),
+                ),
+                Expanded(
+                  child: SummaryCard(
+                      title: 'Completed', number: taskStatus['Completed']!),
+                ),
               ],
             ),
             Expanded(
@@ -105,12 +127,33 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
       TaskListModel responseBody =
           TaskListModel.fromJson(networkResponse.body!);
       taskList = responseBody.data!;
+      await getTaskListStatus();
       if (mounted) {
         isLoading = false;
         setState(() {});
       }
     } else if (networkResponse.isSuccess == false) {
       await goToLoginScreen();
+    }
+  }
+
+  Future<void> getTaskListStatus() async {
+    final NetworkResponse networkResponse =
+        await NetworkCaller().getRequest(Urls.getTaskListStatus);
+    if (networkResponse.isSuccess == true) {
+      StatusCount responseBody = StatusCount.fromJson(networkResponse.body!);
+      taskStatusList = responseBody.data!;
+
+      for (var data in taskStatusList) {
+        taskStatus[data.sId!] = data.sum!;
+      }
+
+      if (mounted) {
+        isLoading = false;
+        setState(() {});
+      }
+    } else if (networkResponse.isSuccess == false) {
+      // await goToLoginScreen();
     }
   }
 

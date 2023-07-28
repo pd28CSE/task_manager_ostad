@@ -18,7 +18,7 @@ class SummaryCard extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Text(
-              number.toString(),
+              number < 10 ? '0$number' : number.toString(),
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,

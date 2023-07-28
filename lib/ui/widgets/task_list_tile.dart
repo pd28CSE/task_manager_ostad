@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../data/models/task_model.dart';
@@ -152,7 +154,7 @@ class _TaskListTileState extends State<TaskListTile> {
       ),
       showDragHandle: true,
       context: context,
-      builder: (cntxt) {
+      builder: (cntxt1) {
         return StatefulBuilder(builder: (cntxt, newState) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
@@ -219,10 +221,11 @@ class _TaskListTileState extends State<TaskListTile> {
                 newState(() {});
               }
               await widget.onStatusUpdate(widget.task.sId!, currentStatus.name);
-              isSavingInProgress = true;
-              if (mounted) {
-                Navigator.pop(cntxt);
-              }
+              isSavingInProgress = false;
+              log(mounted.toString());
+              //  if (mounted) {
+              Navigator.pop(cntxt);
+              // }
             }
           : null,
       child: Visibility(
