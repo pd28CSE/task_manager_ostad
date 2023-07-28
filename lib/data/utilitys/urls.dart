@@ -9,4 +9,7 @@ class Urls {
   static const String getTaskListByStatus = '$_baseUrl/listTaskByStatus';
   static const String updateTaskByStatus = '$_baseUrl/updateTaskStatus';
   static const String getTaskListStatus = '$_baseUrl/taskStatusCount';
+  static const String emailVerification = '$_baseUrl/RecoverVerifyEmail';
+  static const String otpVerification = '$_baseUrl/RecoverVerifyOTP';
+  static const String resetPassword = '$_baseUrl/RecoverResetPass';
 }

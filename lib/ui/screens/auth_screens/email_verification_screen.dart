@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:testtaskmanager/data/utilitys/urls.dart';
 
+import '../../../data/models/network_response.dart';
+import '../../../data/services/network_caller.dart';
+import '../../utilitys/toast_message.dart';
 import '../../widgets/screen_background.dart';
 import './pin_verification_screen.dart';
 
@@ -13,6 +17,24 @@ class EmailVerificationScreen extends StatefulWidget {
 }
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
+  late GlobalKey<FormState> formKey;
+  late TextEditingController emailController;
+  late bool isLoading;
+
+  @override
+  void initState() {
+    formKey = GlobalKey<FormState>();
+    emailController = TextEditingController();
+    isLoading = false;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,28 +55,74 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 20),
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Email'),
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.done,
+                Form(
+                  key: formKey,
+                  child: TextFormField(
+                    controller: emailController,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.done,
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) {
+                        return 'Enter your email';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (cntxt) => const PinVerificationScreen(),
-                      ),
-                    );
-                  },
-                  child: const Text('Next'),
-                ),
+                buildSubmitButton(),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  ElevatedButton buildSubmitButton() {
+    return ElevatedButton(
+      onPressed: isLoading == true
+          ? null
+          : () {
+              if (formKey.currentState!.validate() == false) {
+                return;
+              } else {
+                verifyEmail(emailController.text.trim());
+              }
+            },
+      child: Visibility(
+        visible: isLoading == false,
+        replacement: const CircularProgressIndicator(color: Colors.green),
+        child: const Text('Next'),
+      ),
+    );
+  }
+
+  Future<void> verifyEmail(String email) async {
+    isLoading = true;
+    if (mounted) {
+      setState(() {});
+    }
+    NetworkResponse responseBody = await NetworkCaller()
+        .emailVerification(url: Urls.emailVerification, email: email);
+
+    if (responseBody.body!['status'] == 'success') {
+      showToastMessage('6 digit verification pin is send.', Colors.green);
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (cntxt) => PinVerificationScreen(email: email),
+          ),
+        );
+      }
+    } else {
+      showToastMessage('Enter valid email!', Colors.red);
+    }
+    isLoading = false;
+    if (mounted) {
+      setState(() {});
+    }
   }
 }
