@@ -89,7 +89,7 @@ class _UserProfileBannerState extends State<UserProfileBanner> {
     );
   }
 
-  void getUserData() {
+  Future<void> getUserData() async {
     authUserModel = AuthUtility.userModel;
   }
 }

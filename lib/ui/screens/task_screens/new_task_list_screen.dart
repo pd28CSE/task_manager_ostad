@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/models/auth_utility.dart';
 import '../../../data/models/network_response.dart';
 import '../../../data/models/task_model.dart';
 import '../../../data/services/network_caller.dart';
@@ -8,6 +9,7 @@ import '../../utilitys/toast_message.dart';
 import '../../widgets/summary_card.dart';
 import '../../widgets/task_list_tile.dart';
 import '../../widgets/user_profile_banner.dart';
+import '../auth_screens/login_screen.dart';
 import './add_new_task_screen.dart';
 
 class NewTaskListScreen extends StatefulWidget {
@@ -82,7 +84,9 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (cntxt) => const AddNewTaskScreen()),
-          );
+          ).then((value) async {
+            await getNewTaskList();
+          });
         },
         child: const Icon(Icons.add),
       ),
@@ -90,6 +94,10 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
   }
 
   Future<void> getNewTaskList() async {
+    isLoading = true;
+    if (mounted) {
+      setState(() {});
+    }
     final NetworkResponse networkResponse = await NetworkCaller()
         .getTaskListByStatus(url: Urls.getTaskListByStatus, status: 'New');
     if (networkResponse.isSuccess == true) {
@@ -100,6 +108,8 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
         isLoading = false;
         setState(() {});
       }
+    } else if (networkResponse.isSuccess == false) {
+      await goToLoginScreen();
     }
   }
 
@@ -113,10 +123,24 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
 
     if (networkResponse.isSuccess == true) {
       showToastMessage('Delete Successful', Colors.green);
-      taskList.clear();
       await getNewTaskList();
     } else {
       showToastMessage('Delete request failed!', Colors.red);
+    }
+  }
+
+  Future<void> goToLoginScreen() async {
+    await AuthUtility.clearUserInfo();
+    if (mounted) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (cntxt) {
+            return const LoginScreen();
+          },
+        ),
+        (route) => false,
+      );
     }
   }
 }

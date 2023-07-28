@@ -202,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (networkResponse.isSuccess == true) {
       AuthUserModel authUserModel =
           AuthUserModel.fromJson(networkResponse.body!);
-      AuthUtility.saveUserInfo(authUserModel);
+      await AuthUtility.saveUserInfo(authUserModel);
       clearForm();
       if (mounted) {
         Navigator.pushAndRemoveUntil(

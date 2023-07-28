@@ -88,7 +88,6 @@ class _CancleTaskListScreenState extends State<CancleTaskListScreen> {
 
     if (networkResponse.isSuccess == true) {
       showToastMessage('Delete Successful', Colors.green);
-      taskList.clear();
       await getCancledTaskList();
     } else {
       showToastMessage('Delete request failed!', Colors.red);

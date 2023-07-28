@@ -11,12 +11,13 @@ import '../models/network_response.dart';
 
 class NetworkCaller {
   Future<NetworkResponse> getRequest(String url) async {
+    final String token = AuthUtility.userModel.token.toString();
     try {
       final Response response = await get(
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
-          'token': AuthUtility.userModel.token.toString(),
+          'token': token,
         },
       );
 
@@ -27,6 +28,12 @@ class NetworkCaller {
           statusCode: response.statusCode,
           body: responseBody,
         );
+      } else if (response.statusCode == 401) {
+        log(response.statusCode.toString());
+        log('Token is expired or invalid---');
+        // goToLoginScreen();
+        return NetworkResponse(
+            isSuccess: false, statusCode: response.statusCode, body: null);
       } else {
         return NetworkResponse(
           isSuccess: false,
@@ -56,7 +63,6 @@ class NetworkCaller {
         body: jsonEncode(body),
       );
 
-      log(response.body);
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseBody = jsonDecode(response.body);
         return NetworkResponse(
@@ -65,7 +71,9 @@ class NetworkCaller {
           body: responseBody,
         );
       } else if (response.statusCode == 401) {
-        goToLoginScreen();
+        log(response.statusCode.toString());
+        return NetworkResponse(
+            isSuccess: false, statusCode: response.statusCode, body: null);
       } else {
         return NetworkResponse(
           isSuccess: false,
@@ -75,17 +83,19 @@ class NetworkCaller {
       }
     } catch (error) {
       log(error.toString());
+      return NetworkResponse(isSuccess: false, statusCode: -1, body: null);
     }
-    return NetworkResponse(isSuccess: false, statusCode: -1, body: null);
   }
 
   Future<void> goToLoginScreen() async {
     await AuthUtility.clearUserInfo();
     Navigator.pushAndRemoveUntil(
       TaskManager.globalKey.currentState!.context,
-      MaterialPageRoute(builder: (cntxt) {
-        return const LoginScreen();
-      }),
+      MaterialPageRoute(
+        builder: (cntxt) {
+          return const LoginScreen();
+        },
+      ),
       (route) => false,
     );
   }

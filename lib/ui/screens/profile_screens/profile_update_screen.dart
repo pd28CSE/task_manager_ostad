@@ -38,6 +38,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
 
   @override
   void dispose() {
+    userData.clear();
     super.dispose();
   }
 
@@ -90,31 +91,34 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                         const SizedBox(height: 20),
                         TextFormField(
                           initialValue: userData['email'],
-                          // decoration: const InputDecoration(
-                          //   labelText: 'Email',
-                          // ),
+                          decoration: const InputDecoration(
+                            labelText: 'Email',
+                          ),
                           readOnly: true,
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
-                          decoration: InputDecoration(
-                            labelText: userData['firstName'],
+                          initialValue: userData['firstName'],
+                          decoration: const InputDecoration(
+                            labelText: 'First Name',
                           ),
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.next,
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
-                          decoration: InputDecoration(
-                            labelText: userData['lastName'],
+                          initialValue: userData['lastName'],
+                          decoration: const InputDecoration(
+                            labelText: 'Last Name',
                           ),
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.next,
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
-                          decoration: InputDecoration(
-                            labelText: userData['mobile'],
+                          initialValue: userData['mobile'],
+                          decoration: const InputDecoration(
+                            labelText: 'Mobile Number',
                           ),
                           keyboardType: TextInputType.phone,
                           textInputAction: TextInputAction.next,
