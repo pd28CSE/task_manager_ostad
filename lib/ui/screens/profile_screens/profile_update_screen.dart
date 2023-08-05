@@ -20,12 +20,16 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   late bool isPasswordHidden;
   late bool isConfirmPasswordHidden;
   late Map<String, String> userData;
+  late TextEditingController imageController;
+  late TextEditingController firstNameController;
+  late TextEditingController lastNameController;
+  late TextEditingController phoneNoController;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+  late TextEditingController confirmPasswordController;
 
   @override
   void initState() {
-    formKey = GlobalKey<FormState>();
-    isPasswordHidden = true;
-    isConfirmPasswordHidden = true;
     AuthUserModel authUserModel = AuthUtility.userModel;
     userData = {
       'email': authUserModel.data!.email!,
@@ -33,12 +37,30 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
       'firstName': authUserModel.data!.firstName!,
       'lastName': authUserModel.data!.lastName!,
     };
+    formKey = GlobalKey<FormState>();
+    isPasswordHidden = true;
+    isConfirmPasswordHidden = true;
+    imageController = TextEditingController();
+    firstNameController = TextEditingController(text: userData['firstName']);
+    lastNameController = TextEditingController(text: userData['lastName']);
+    phoneNoController = TextEditingController(text: userData['mobile']);
+    emailController = TextEditingController(text: userData['email']);
+    passwordController = TextEditingController();
+    confirmPasswordController = TextEditingController();
+
     super.initState();
   }
 
   @override
   void dispose() {
     userData.clear();
+    imageController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    phoneNoController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -69,6 +91,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
+                          controller: imageController,
                           decoration: InputDecoration(
                             prefixIcon: TextButton(
                               style: TextButton.styleFrom(
@@ -90,7 +113,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
-                          initialValue: userData['email'],
+                          controller: emailController,
                           decoration: const InputDecoration(
                             labelText: 'Email',
                           ),
@@ -98,7 +121,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
-                          initialValue: userData['firstName'],
+                          controller: firstNameController,
                           decoration: const InputDecoration(
                             labelText: 'First Name',
                           ),
@@ -107,7 +130,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
-                          initialValue: userData['lastName'],
+                          controller: lastNameController,
                           decoration: const InputDecoration(
                             labelText: 'Last Name',
                           ),
@@ -116,7 +139,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
-                          initialValue: userData['mobile'],
+                          controller: phoneNoController,
                           decoration: const InputDecoration(
                             labelText: 'Mobile Number',
                           ),
@@ -125,6 +148,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
+                          controller: passwordController,
                           decoration: InputDecoration(
                             labelText: 'Password',
                             suffixIcon: IconButton(
@@ -146,6 +170,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
+                          controller: confirmPasswordController,
                           decoration: InputDecoration(
                             labelText: 'Confirm Password',
                             suffixIcon: IconButton(
@@ -168,7 +193,9 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                         ),
                         const SizedBox(height: 20),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {}
+                          },
                           child: const Text('Update'),
                         ),
                       ],
@@ -184,7 +211,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   }
 
   Future<ImageSource?> storageSelection() {
-    return showDialog<ImageSource>(
+    return showDialog<ImageSource?>(
       context: context,
       builder: (cntxt) {
         return AlertDialog(

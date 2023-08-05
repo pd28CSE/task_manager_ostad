@@ -15,7 +15,8 @@ import '../auth_screens/login_screen.dart';
 import './add_new_task_screen.dart';
 
 class NewTaskListScreen extends StatefulWidget {
-  const NewTaskListScreen({super.key});
+  final void Function(int) onChangeScreen;
+  const NewTaskListScreen({super.key, required this.onChangeScreen});
 
   @override
   State<NewTaskListScreen> createState() => _NewTaskListScreenState();
@@ -60,19 +61,40 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
             Row(
               children: <Widget>[
                 Expanded(
-                  child: SummaryCard(title: 'New', number: taskStatus['New']!),
+                  child: InkWell(
+                    onTap: () {
+                      widget.onChangeScreen(0);
+                    },
+                    child:
+                        SummaryCard(title: 'New', number: taskStatus['New']!),
+                  ),
                 ),
                 Expanded(
-                  child: SummaryCard(
-                      title: 'In Progress', number: taskStatus['Progress']!),
+                  child: InkWell(
+                    onTap: () {
+                      widget.onChangeScreen(1);
+                    },
+                    child: SummaryCard(
+                        title: 'In Progress', number: taskStatus['Progress']!),
+                  ),
                 ),
                 Expanded(
-                  child: SummaryCard(
-                      title: 'Cancle', number: taskStatus['Cancled']!),
+                  child: InkWell(
+                    onTap: () {
+                      widget.onChangeScreen(2);
+                    },
+                    child: SummaryCard(
+                        title: 'Cancle', number: taskStatus['Cancled']!),
+                  ),
                 ),
                 Expanded(
-                  child: SummaryCard(
-                      title: 'Completed', number: taskStatus['Completed']!),
+                  child: InkWell(
+                    onTap: () {
+                      widget.onChangeScreen(3);
+                    },
+                    child: SummaryCard(
+                        title: 'Completed', number: taskStatus['Completed']!),
+                  ),
                 ),
               ],
             ),

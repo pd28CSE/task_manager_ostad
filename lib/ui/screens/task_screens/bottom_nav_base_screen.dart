@@ -15,14 +15,20 @@ class BottomNavBaseScreen extends StatefulWidget {
 }
 
 class _BottomNavBaseScreenState extends State<BottomNavBaseScreen> {
-  int _currentScreenIndex = 0;
+  late int _currentScreenIndex;
+  late final List<Widget> _screens;
 
-  final List<Widget> _screens = const <Widget>[
-    NewTaskListScreen(),
-    ProgressTaskListScreen(),
-    CancleTaskListScreen(),
-    CompletedTaskListScreen(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _currentScreenIndex = 0;
+    _screens = <Widget>[
+      NewTaskListScreen(onChangeScreen: changeScreen),
+      const ProgressTaskListScreen(),
+      const CancleTaskListScreen(),
+      const CompletedTaskListScreen(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,5 +64,13 @@ class _BottomNavBaseScreenState extends State<BottomNavBaseScreen> {
         ],
       ),
     );
+  }
+
+  void changeScreen(int index) {
+    if (index == _currentScreenIndex) {
+      return;
+    }
+    _currentScreenIndex = index;
+    setState(() {});
   }
 }
