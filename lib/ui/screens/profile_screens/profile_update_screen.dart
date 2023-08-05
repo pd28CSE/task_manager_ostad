@@ -20,7 +20,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   late bool isPasswordHidden;
   late bool isConfirmPasswordHidden;
   late Map<String, String> userData;
-  late TextEditingController imageController;
+  late TextEditingController imagePathController;
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
   late TextEditingController phoneNoController;
@@ -40,7 +40,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
     formKey = GlobalKey<FormState>();
     isPasswordHidden = true;
     isConfirmPasswordHidden = true;
-    imageController = TextEditingController();
+    imagePathController = TextEditingController();
     firstNameController = TextEditingController(text: userData['firstName']);
     lastNameController = TextEditingController(text: userData['lastName']);
     phoneNoController = TextEditingController(text: userData['mobile']);
@@ -54,7 +54,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   @override
   void dispose() {
     userData.clear();
-    imageController.dispose();
+    imagePathController.dispose();
     firstNameController.dispose();
     lastNameController.dispose();
     phoneNoController.dispose();
@@ -91,7 +91,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
-                          controller: imageController,
+                          controller: imagePathController,
                           decoration: InputDecoration(
                             prefixIcon: TextButton(
                               style: TextButton.styleFrom(
@@ -127,6 +127,12 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                           ),
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value?.isEmpty ?? true) {
+                              return 'Enter your first name';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
@@ -136,6 +142,12 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                           ),
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value?.isEmpty ?? true) {
+                              return 'Enter your last name';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
@@ -145,6 +157,12 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                           ),
                           keyboardType: TextInputType.phone,
                           textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value?.isEmpty ?? true) {
+                              return 'Enter your mobile number';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
@@ -167,6 +185,12 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.next,
                           obscureText: isPasswordHidden,
+                          validator: (value) {
+                            if (value?.isEmpty ?? true) {
+                              return 'Enter new password';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
@@ -190,11 +214,23 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.done,
                           obscureText: isConfirmPasswordHidden,
+                          validator: (value) {
+                            if (value?.isEmpty ?? true) {
+                              return 'Enter your Confirm Password';
+                            } else if (value!.length < 8) {
+                              return 'Minimum length must be 8 characters long';
+                            } else if (value != passwordController.text) {
+                              return 'Password and Confirm Password is not match';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
-                            if (formKey.currentState!.validate()) {}
+                            if (formKey.currentState!.validate() == true) {
+                              formKey.currentState!.reset();
+                            }
                           },
                           child: const Text('Update'),
                         ),
@@ -250,6 +286,10 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
       }
       final XFile? image = await ImagePicker().pickImage(source: imageSource);
       print(image?.path);
+      if (image != null) {
+        imagePathController.text = image.name;
+        setState(() {});
+      }
     } catch (e) {
       print(e.toString());
     }
