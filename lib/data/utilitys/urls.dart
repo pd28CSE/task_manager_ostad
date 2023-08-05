@@ -5,11 +5,19 @@ class Urls {
   static const String registration = '$_baseUrl/registration';
   static const String login = '$_baseUrl/login';
   static const String createTask = '$_baseUrl/createTask';
-  static const String deleteTask = '$_baseUrl/deleteTask';
-  static const String getTaskListByStatus = '$_baseUrl/listTaskByStatus';
-  static const String updateTaskByStatus = '$_baseUrl/updateTaskStatus';
-  static const String getTaskListStatus = '$_baseUrl/taskStatusCount';
-  static const String emailVerification = '$_baseUrl/RecoverVerifyEmail';
-  static const String otpVerification = '$_baseUrl/RecoverVerifyOTP';
-  static const String resetPassword = '$_baseUrl/RecoverResetPass';
+  static const String taskListByNew = '$_baseUrl/listTaskByStatus/New';
+  static const String taskListByProgress =
+      '$_baseUrl/listTaskByStatus/Progress';
+  static const String taskListByCancle = '$_baseUrl/listTaskByStatus/Cancled';
+  static const String taskListByCompleted =
+      '$_baseUrl/listTaskByStatus/Completed';
+  static const String taskStatusCount = '$_baseUrl/taskStatusCount';
+  static String taskDeleteById(String taskId) => '$_baseUrl/deleteTask/$taskId';
+  static String taskSatusUpdate(String taskId, String status) =>
+      '$_baseUrl/updateTaskStatus/$taskId/$status';
+  static String userRecoverVerifyEmail(String email) =>
+      '$_baseUrl/RecoverVerifyEmail/$email';
+  static String otpVerification(String email, String otp) =>
+      '$_baseUrl/RecoverVerifyOTP/$email/$otp';
+  static const String resetUserPassword = '$_baseUrl/RecoverResetPass';
 }

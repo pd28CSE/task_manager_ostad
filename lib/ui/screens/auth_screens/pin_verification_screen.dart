@@ -111,11 +111,11 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
     if (mounted) {
       setState(() {});
     }
-    NetworkResponse responseBody = await NetworkCaller()
-        .otpVerification(url: Urls.otpVerification, email: email, otp: otp);
-
+    NetworkResponse responseBody =
+        await NetworkCaller().getRequest(Urls.otpVerification(email, otp));
     if (responseBody.body!['status'] == 'success') {
-      showToastMessage('OTP verification successful', Colors.green);
+      formKey.currentState!.reset();
+      showToastMessage('OTP verification successful.', Colors.green);
       if (mounted) {
         Navigator.push(
           context,

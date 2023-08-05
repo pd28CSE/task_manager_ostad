@@ -20,8 +20,6 @@ class NetworkCaller {
           'token': token,
         },
       );
-      log(response.body);
-      log(response.statusCode.toString());
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseBody = jsonDecode(response.body);
         return NetworkResponse(
@@ -91,7 +89,7 @@ class NetworkCaller {
   Future<void> goToLoginScreen() async {
     await AuthUtility.clearUserInfo();
     Navigator.pushAndRemoveUntil(
-      TaskManager.globalKey.currentState!.context,
+      TaskManager.globalKey.currentContext!,
       MaterialPageRoute(
         builder: (cntxt) {
           return const LoginScreen();
@@ -99,25 +97,5 @@ class NetworkCaller {
       ),
       (route) => false,
     );
-  }
-
-  Future<NetworkResponse> deleteTaskById(
-      {required String url, required String id}) {
-    return getRequest('$url/$id');
-  }
-
-  Future<NetworkResponse> getTaskListByStatus(
-      {required String url, required String status}) {
-    return getRequest('$url/$status');
-  }
-
-  Future<NetworkResponse> emailVerification(
-      {required String url, required String email}) {
-    return getRequest('$url/$email');
-  }
-
-  Future<NetworkResponse> otpVerification(
-      {required String url, required String email, required String otp}) {
-    return getRequest('$url/$email/$otp');
   }
 }

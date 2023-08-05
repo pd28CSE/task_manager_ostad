@@ -75,7 +75,9 @@ class _TaskListTileState extends State<TaskListTile> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  showTaskStatus(context);
+                },
                 icon: const Icon(
                   Icons.edit,
                   color: Colors.green,

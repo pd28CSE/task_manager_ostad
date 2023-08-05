@@ -47,10 +47,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                 decoration: BoxDecoration(
                   color: Colors.green,
                 ),
-                child: UserProfileBanner(
-                  fullName: 'Partho Debnath',
-                  userEmail: 'user@example.com',
-                ),
+                child: UserProfileBanner(),
               ),
               Padding(
                 padding:

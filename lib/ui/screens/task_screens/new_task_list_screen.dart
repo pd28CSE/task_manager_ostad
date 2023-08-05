@@ -7,6 +7,7 @@ import '../../../data/models/task_model.dart';
 import '../../../data/services/network_caller.dart';
 import '../../../data/utilitys/urls.dart';
 import '../../utilitys/toast_message.dart';
+import '../../widgets/screen_background.dart';
 import '../../widgets/summary_card.dart';
 import '../../widgets/task_list_tile.dart';
 import '../../widgets/user_profile_banner.dart';
@@ -51,13 +52,10 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: ScreenBackground(
         child: Column(
           children: <Widget>[
-            const UserProfileBanner(
-              fullName: 'Partho Debnath',
-              userEmail: 'parthodebnath28@gmail.com',
-            ),
+            const UserProfileBanner(),
             const SizedBox(height: 10),
             Row(
               children: <Widget>[
@@ -117,8 +115,8 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
   }
 
   Future<void> getNewTaskList() async {
-    final NetworkResponse networkResponse = await NetworkCaller()
-        .getTaskListByStatus(url: Urls.getTaskListByStatus, status: 'New');
+    final NetworkResponse networkResponse =
+        await NetworkCaller().getRequest(Urls.taskListByNew);
     if (networkResponse.isSuccess == true) {
       TaskListModel responseBody =
           TaskListModel.fromJson(networkResponse.body!);
@@ -139,7 +137,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
       setState(() {});
     }
     final NetworkResponse networkResponse =
-        await NetworkCaller().getRequest(Urls.getTaskListStatus);
+        await NetworkCaller().getRequest(Urls.taskStatusCount);
     if (networkResponse.isSuccess == true) {
       StatusCount responseBody = StatusCount.fromJson(networkResponse.body!);
       taskStatusList = responseBody.data!;
@@ -163,11 +161,11 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
       setState(() {});
     }
     final NetworkResponse networkResponse =
-        await NetworkCaller().deleteTaskById(url: Urls.deleteTask, id: taskId);
+        await NetworkCaller().getRequest(Urls.taskDeleteById(taskId));
 
     if (networkResponse.isSuccess == true) {
       showToastMessage('Delete Successful', Colors.green);
-      await getNewTaskList();
+      taskList.removeWhere((task) => task.sId == taskId);
     } else {
       showToastMessage('Delete request failed!', Colors.red);
     }
@@ -193,8 +191,8 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
     if (mounted) {
       setState(() {});
     }
-    final NetworkResponse networkResponse = await NetworkCaller()
-        .getRequest('${Urls.updateTaskByStatus}/$taskId/$status');
+    final NetworkResponse networkResponse =
+        await NetworkCaller().getRequest(Urls.taskSatusUpdate(taskId, status));
 
     if (networkResponse.isSuccess == true) {
       showToastMessage('Update Successful', Colors.green);

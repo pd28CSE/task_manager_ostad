@@ -88,7 +88,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               if (formKey.currentState!.validate() == false) {
                 return;
               } else {
-                verifyEmail(emailController.text.trim());
+                verifyUserEmail(emailController.text.trim());
               }
             },
       child: Visibility(
@@ -99,15 +99,15 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     );
   }
 
-  Future<void> verifyEmail(String email) async {
+  Future<void> verifyUserEmail(String email) async {
     isLoading = true;
     if (mounted) {
       setState(() {});
     }
-    NetworkResponse responseBody = await NetworkCaller()
-        .emailVerification(url: Urls.emailVerification, email: email);
-
-    if (responseBody.body!['status'] == 'success') {
+    NetworkResponse networkResponse =
+        await NetworkCaller().getRequest(Urls.userRecoverVerifyEmail(email));
+    if (networkResponse.body!['status'] == 'success') {
+      formKey.currentState!.reset();
       showToastMessage('6 digit verification pin is send.', Colors.green);
       if (mounted) {
         Navigator.push(

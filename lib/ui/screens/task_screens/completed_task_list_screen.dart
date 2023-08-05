@@ -5,6 +5,7 @@ import '../../../data/models/task_model.dart';
 import '../../../data/services/network_caller.dart';
 import '../../../data/utilitys/urls.dart';
 import '../../utilitys/toast_message.dart';
+import '../../widgets/screen_background.dart';
 import '../../widgets/task_list_tile.dart';
 import '../../widgets/user_profile_banner.dart';
 
@@ -35,13 +36,10 @@ class _CompletedTaskListScreenState extends State<CompletedTaskListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: ScreenBackground(
         child: Column(
           children: <Widget>[
-            const UserProfileBanner(
-              fullName: 'Partho Debnath',
-              userEmail: 'parthodebnath28@gmail.com',
-            ),
+            const UserProfileBanner(),
             const SizedBox(height: 10),
             Expanded(
               child: Visibility(
@@ -71,9 +69,8 @@ class _CompletedTaskListScreenState extends State<CompletedTaskListScreen> {
   }
 
   Future<void> getCompletedTaskList() async {
-    final NetworkResponse networkResponse = await NetworkCaller()
-        .getTaskListByStatus(
-            url: Urls.getTaskListByStatus, status: 'Completed');
+    final NetworkResponse networkResponse =
+        await NetworkCaller().getRequest(Urls.taskListByCompleted);
     if (networkResponse.isSuccess == true) {
       TaskListModel responseBody =
           TaskListModel.fromJson(networkResponse.body!);
@@ -89,7 +86,7 @@ class _CompletedTaskListScreenState extends State<CompletedTaskListScreen> {
     isLoading = true;
     setState(() {});
     final NetworkResponse networkResponse =
-        await NetworkCaller().deleteTaskById(url: Urls.deleteTask, id: taskId);
+        await NetworkCaller().getRequest(Urls.taskDeleteById(taskId));
 
     if (networkResponse.isSuccess == true) {
       showToastMessage('Delete Successful', Colors.green);
@@ -103,8 +100,8 @@ class _CompletedTaskListScreenState extends State<CompletedTaskListScreen> {
   Future<void> updateTaskByStatus(String taskId, String status) async {
     isLoading = true;
     setState(() {});
-    final NetworkResponse networkResponse = await NetworkCaller()
-        .getRequest('${Urls.updateTaskByStatus}/$taskId/$status');
+    final NetworkResponse networkResponse =
+        await NetworkCaller().getRequest(Urls.taskSatusUpdate(taskId, status));
 
     if (networkResponse.isSuccess == true) {
       showToastMessage('Update Successful', Colors.green);

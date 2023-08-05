@@ -157,7 +157,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
       'password': confirmPasswordController.text,
     };
     NetworkResponse responseBody = await NetworkCaller()
-        .postRequest(url: Urls.resetPassword, body: requestBody);
+        .postRequest(url: Urls.resetUserPassword, body: requestBody);
     if (responseBody.body!['status'] == 'success') {
       showToastMessage(
           'Password reset successful., Now you can login.', Colors.green);
